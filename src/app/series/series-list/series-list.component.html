@@ -1,29 +1,62 @@
-<div class="container-fluid">
-  <div class="col-6">
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="h4">Series Name</th>
-          <th class="h4">Channel</th>
-          <th class="h4">Seasons</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (s of series; track s) {
+<div class="container-fluid mt-3">
+  <div class="row">
+
+    <!-- LISTA -->
+    <div class="col-5">
+      <table class="table">
+        <thead>
           <tr>
-            <td>
-              <a [routerLink]="['/series', s.id]">{{ s.name }}</a>
-            </td>
-            <td>
-              <dd>{{ s.channel }}</dd>
-            </td>
-            <td>
-              <dd>{{ s.seasons }}</dd>
-            </td>
+            <th>#</th>
+            <th>Name</th>
+            <th>Channel</th>
+            <th>Seasons</th>
           </tr>
-        }
-      </tbody>
-    </table>
-    <p>Seasons average: {{ seasonsAverage }}</p>  
+        </thead>
+        <tbody>
+          @for (s of series; track s) {
+            <tr [class.table-active]="selectedSerie?.id === s.id" 
+                (click)="selectSerie(s)" 
+                style="cursor: pointer;">
+              <td>{{ s.id }}</td>
+              <td class="serie-name">{{ s.name }}</td>
+              <td>{{ s.channel }}</td>
+              <td>{{ s.seasons }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <p>Seasons average: {{ seasonsAverage }}</p>
+    </div>
+
+    <!-- DETALLE -->
+    <div class="col-7">
+      @if (selectedSerie) {
+        <div class="detail-card">
+          <img [src]="selectedSerie.poster" [alt]="selectedSerie.name" class="detail-img">
+          <h4 class="mt-3">{{ selectedSerie.name }}</h4>
+          <table class="table table-sm detail-table">
+            <tbody>
+              <tr>
+                <th>Canal</th>
+                <td>{{ selectedSerie.channel }}</td>
+              </tr>
+              <tr>
+                <th>Temporadas</th>
+                <td>{{ selectedSerie.seasons }}</td>
+              </tr>
+              <tr>
+                <th>Descripción</th>
+                <td>{{ selectedSerie.description }}</td>
+              </tr>
+              <tr>
+                <th>Web</th>
+                <td><a [href]="selectedSerie.webpage" target="_blank">{{ selectedSerie.webpage }}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+
   </div>
 </div>

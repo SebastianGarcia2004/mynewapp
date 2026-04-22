@@ -1,21 +1,40 @@
-<div class="container mt-4" *ngIf="serie">
-  <div class="row">
-    <div class="col-4">
-      <img [src]="serie.poster" [alt]="serie.name" class="img-fluid rounded shadow">
-    </div>
-    <div class="col-8">
-      <h2>{{ serie.name }}</h2>
-      <p><strong>Canal:</strong> {{ serie.channel }}</p>
-      <p><strong>Temporadas:</strong> {{ serie.seasons }}</p>
-      <p><strong>Descripción:</strong> {{ serie.description }}</p>
-      <a [href]="serie.webpage" target="_blank" class="btn btn-primary">Ver página oficial</a>
-      <br><br>
-      <a routerLink="/series" class="btn btn-secondary">← Volver al listado</a>
+@if (serie) {
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-4">
+        <img [src]="serie.poster" [alt]="serie.name" class="img-fluid rounded shadow">
+      </div>
+      <div class="col-8">
+        <h3 class="mb-3">{{ serie.name }}</h3>
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <th>Canal</th>
+              <td>{{ serie.channel }}</td>
+            </tr>
+            <tr>
+              <th>Temporadas</th>
+              <td>{{ serie.seasons }}</td>
+            </tr>
+            <tr>
+              <th>Descripción</th>
+              <td>{{ serie.description }}</td>
+            </tr>
+            <tr>
+              <th>Página oficial</th>
+              <td>
+                <a [href]="serie.webpage" target="_blank">{{ serie.webpage }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a routerLink="/series" class="btn btn-secondary">← Volver al listado</a>
+      </div>
     </div>
   </div>
-</div>
-
-<div class="container mt-4" *ngIf="!serie">
-  <p>Serie no encontrada.</p>
-  <a routerLink="/series" class="btn btn-secondary">← Volver al listado</a>
-</div>
+} @else {
+  <div class="container mt-4">
+    <p>Serie no encontrada.</p>
+    <a routerLink="/series" class="btn btn-secondary">← Volver al listado</a>
+  </div>
+}

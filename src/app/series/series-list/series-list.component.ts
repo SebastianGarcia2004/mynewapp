@@ -14,7 +14,8 @@ import { Series } from '../series';
 export class SeriesListComponent implements OnInit {
 
   series: Series[] = [];
-  seasonsAverage: number = 0;  // 👈 NUEVO
+  seasonsAverage: number = 0;
+  selectedSerie: Series | undefined;  // 👈 NUEVO
 
   constructor(
     private seriesService: SeriesService,
@@ -24,11 +25,14 @@ export class SeriesListComponent implements OnInit {
   ngOnInit(): void {
     this.seriesService.getSeriesList().subscribe((data: any) => {
       this.series = data;
-      // 👈 NUEVO: calcular promedio
       const total = this.series.reduce((sum, s) => sum + s.seasons, 0);
       this.seasonsAverage = Math.round(total / this.series.length);
-      console.log(this.series);
       this.cdr.detectChanges();
     });
+  }
+
+  // 👈 NUEVO
+  selectSerie(serie: Series): void {
+    this.selectedSerie = serie;
   }
 }
