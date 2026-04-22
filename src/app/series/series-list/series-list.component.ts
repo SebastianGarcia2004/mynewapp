@@ -1,27 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { Series } from '../series';
-import { dataSeries } from '../dataSeries';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { SeriesService } from '../series.service';
+import { Series } from '../series';
 
 @Component({
   selector: 'app-series-list',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './series-list.component.html',
-  styleUrl: './series-list.component.css',
+  styleUrls: ['./series-list.component.css']
 })
 export class SeriesListComponent implements OnInit {
-  series: Array<Series> = [];
 
-  constructor(private seriesService: SeriesService) {}
+  series: Series[] = [];
+  seasonsAverage: number = 0;  // 👈 NUEVO
 
-  getSeriesList(): Array<Series> {
-    this.seriesService.getSeriesList().subscribe((data) => {
+  constructor(
+    private seriesService: SeriesService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.seriesService.getSeriesList().subscribe((data: any) => {
       this.series = data;
+      // 👈 NUEVO: calcular promedio
+      const total = this.series.reduce((sum, s) => sum + s.seasons, 0);
+      this.seasonsAverage = Math.round(total / this.series.length);
+      console.log(this.series);
+      this.cdr.detectChanges();
     });
-    return this.series;
-  } 
-
-  ngOnInit() {
-    this.getSeriesList();
   }
 }

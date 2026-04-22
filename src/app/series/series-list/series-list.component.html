@@ -12,7 +12,7 @@
         @for (s of series; track s) {
           <tr>
             <td>
-              <dd>{{ s.name }}</dd>
+              <a [routerLink]="['/series', s.id]">{{ s.name }}</a>
             </td>
             <td>
               <dd>{{ s.channel }}</dd>
@@ -24,5 +24,6 @@
         }
       </tbody>
     </table>
+    <p>Seasons average: {{ seasonsAverage }}</p>  
   </div>
 </div>
